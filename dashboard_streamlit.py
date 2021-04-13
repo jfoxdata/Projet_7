@@ -28,16 +28,16 @@ import altair as alt
 import re
 #matplotlib.use('Agg')
 
-import io
-import requests
-url2 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_test.csv'
-url1 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_train.csv'
-s1=requests.get(url1)
-s2=requests.get(url2)
-df=pd.read_csv(io.StringIO(s1.text))
-test_df=pd.read_csv(io.StringIO(s2.text))
-# df=pd.read_csv(c2)
-# test_df=pd.read_csv(c1)
+# import io
+# import requests
+# url2 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_test.csv'
+# url1 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_train.csv'
+# s1=requests.get(url1)
+# s2=requests.get(url2)
+# df=pd.read_csv(io.StringIO(s1.text))
+# test_df=pd.read_csv(io.StringIO(s2.text))
+# # df=pd.read_csv(c2)
+# # test_df=pd.read_csv(c1)
 
 st.set_page_config(layout="wide")
 
