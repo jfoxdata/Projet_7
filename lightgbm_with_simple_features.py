@@ -28,14 +28,14 @@ import seaborn as sns
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-import io
-import requests
-url2 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_test.csv'
-url1 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_train.csv'
-s1=requests.get(url1)
-s2=requests.get(url2)
-df=pd.read_csv(io.StringIO(s1.text))
-test_df=pd.read_csv(io.StringIO(s2.text))
+# import io
+# import requests
+# url2 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_test.csv'
+# url1 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_train.csv'
+# s1=requests.get(url1)
+# s2=requests.get(url2)
+# df=pd.read_csv(io.StringIO(s1.text))
+# test_df=pd.read_csv(io.StringIO(s2.text))
 
 @contextmanager
 def timer(title):
@@ -55,8 +55,8 @@ def one_hot_encoder(df, nan_as_category = True):
 
 def application_train_test(num_rows = None, nan_as_category = False):
     # Read data and merge
-    # df = pd.read_csv('application_train.csv', nrows= num_rows)
-    # test_df = pd.read_csv('application_test.csv', nrows= num_rows)
+    df = pd.read_csv('application_train.csv', nrows= num_rows)
+    test_df = pd.read_csv('application_test.csv', nrows= num_rows)
     #print("Train samples: {}, test samples: {}".format(len(df), len(test_df)))
     df = df.append(test_df).reset_index()
     # Optional: Remove 4 applications with XNA CODE_GENDER (train set)
