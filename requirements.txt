@@ -1,11 +1,14 @@
-streamlit
-pandas == 1.2.3
-numpy == 1.20.2
-lightgbm == 3.1.1
-scikit-learn == 0.24.1
-matplotlib == 3.3.4
-seaborn == 0.11.1
-plotly == 4.14.3
-shap == 0.37.0
-lime == 0.2.0.1
-
+lightgbm==3.1.1
+Python_dev==2.0.0.dev0
+matplotlib==3.3.4
+pandas==1.2.3
+shap==0.37.0
+numpy==1.20.2
+streamlit==0.80.0
+lime==0.2.0.1
+plotly==4.14.3
+altair==4.1.0
+seaborn==0.11.1
+Flask==1.1.2
+Pillow==8.2.0
+scikit_learn==0.24.1
