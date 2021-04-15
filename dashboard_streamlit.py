@@ -42,7 +42,7 @@ import re
 st.set_page_config(layout="wide")
 
 
-model = pickle.load(open('model.pkl', 'rb'))
+# model = pickle.load(open('model.pkl', 'rb'))
 
 st.title('Prêt à dépenser')
 
@@ -102,24 +102,24 @@ def st_shap(plot, height=None):
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
 def predict():
-#     clf4 = LGBMClassifier(max_depth=24, n_estimators=836, num_leaves=23,
-#                      learning_rate=0.02,
-#                      min_child_weight= 95.7889530150502,
-#                      min_split_gain= 0.5331652849730171,
-#                      reg_alpha= 0.6918771139504734,
-#                      reg_lambda= 0.31551563100606295,
-#                      colsample_bytree= 0.20445224973151743,
-#                      subsample= 0.8781174363909454, 
-#                      is_unbalance=True, random_state=1, force_row_wise=True)
+    clf4 = LGBMClassifier(max_depth=24, n_estimators=836, num_leaves=23,
+                     learning_rate=0.02,
+                     min_child_weight= 95.7889530150502,
+                     min_split_gain= 0.5331652849730171,
+                     reg_alpha= 0.6918771139504734,
+                     reg_lambda= 0.31551563100606295,
+                     colsample_bytree= 0.20445224973151743,
+                     subsample= 0.8781174363909454, 
+                     is_unbalance=True, random_state=1, force_row_wise=True)
 
-#     model = clf4.fit(X_train, y)
-    y_pred = model.predict_proba(X_train)
+    model = clf4.fit(X_train, y)
+    y_pred = clf4.predict_proba(X_train)
 #     y_pred2 = model.predict_proba(X_test)
 #     y_pred = np.concatenate((y_pred1, y_pred2))
-    return y_pred #, model
+    return y_pred , model
 
 y_pred = predict()[0]
-# model = predict()[1]
+model = predict()[1]
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
@@ -156,11 +156,11 @@ def shap_explainer():
 
 
 
-@st.cache(suppress_st_warning=True)
-def lime_explainer():
-    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
-    mode='classification',training_labels=y,feature_names=X_train.columns)
-    return explainer
+# @st.cache(suppress_st_warning=True)
+# def lime_explainer():
+#     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
+#     mode='classification',training_labels=y,feature_names=X_train.columns)
+#     return explainer
 
 
 def main():
