@@ -176,15 +176,15 @@ def main():
 
 
 
-#     col1, col2 = st.beta_columns(2)
+    col1, col2 = st.beta_columns(2)
 
 
-#     col1.text('Score :')
-#     col1.write(y_pred[client][0])
-#     if score[client] == 0:
-#         col1.success('Prêt accepté !')
-#     else : 
-#         col1.warning('Prêt refusé !')
+    col1.text('Score :')
+    col1.write(y_pred[client][0])
+    if score[client] == 0:
+        col1.success('Prêt accepté !')
+    else : 
+        col1.warning('Prêt refusé !')
 
 
 #     # fig = go.Figure(go.Indicator(
