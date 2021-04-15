@@ -309,8 +309,8 @@ def main():
 
 
     fig = plt.figure(figsize=(15,10))
-    plt.scatter(data[var1], data[var2], c=y_pred[:,1])
-    plt.scatter(data[var1].iloc[client], data[var2].iloc[client], marker="8", s=200, c='red')
+    plt.scatter(X_train[var1], X_train[var2], c=y_pred[:,1])
+    plt.scatter(X_train[var1].iloc[client], X_train[var2].iloc[client], marker="8", s=200, c='red')
     st.pyplot(fig)
 
 if __name__ =='__main__':
