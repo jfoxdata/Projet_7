@@ -143,7 +143,7 @@ def prob(data):
 # ######### ------------------------ ###########
 
 
-# feat_importances = pd.Series(model.feature_importances_, index=X.columns)
+feat_importances = pd.Series(model.feature_importances_, index=X.columns)
 
 # ########## ------------------- ############ 
 
