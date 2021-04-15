@@ -49,7 +49,7 @@ st.title('Prêt à dépenser')
 image = Image.open('pret-a-depenser.PNG')
 
 @st.cache(suppress_st_warning=True)
-def train(plot, height=None):
+def train():
     train_test = application_train_test(num_rows = None, nan_as_category = False)
     train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
     X = train.drop(columns=['TARGET'])
@@ -57,6 +57,7 @@ def train(plot, height=None):
     scaler = StandardScaler()
     X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
     return X_train
+X_train = train()
 
 # train_test = application_train_test(num_rows = None, nan_as_category = False)
 # #bureau_balance = bureau_and_balance(num_rows = None, nan_as_category = True)
