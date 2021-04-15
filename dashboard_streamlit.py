@@ -136,9 +136,9 @@ k = 0.3
 score = seuil(k, y_pred)
 
 # ######### ------------------------ ###########
-# @st.cache(suppress_st_warning=True)
-# def prob(data):
-#     return np.array(list(zip(1-model.predict(data), model.predict(data))))
+@st.cache(suppress_st_warning=True)
+def prob(data):
+    return np.array(list(zip(1-model.predict(data), model.predict(data))))
 
 # ######### ------------------------ ###########
 
