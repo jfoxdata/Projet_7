@@ -273,8 +273,8 @@ def main():
     plt.title('Importance locale des features')
     exp.as_pyplot_figure()
     col1.pyplot()
-    plf.clf()
-    st.markdown(exp.as_html(), unsafe_allow_html=True)
+#     plf.clf()
+#     st.markdown(exp.as_html(), unsafe_allow_html=True)
  
 
 
