@@ -156,11 +156,11 @@ feat_importances = pd.Series(model.feature_importances_, index=X_train.columns)
 
 
 
-@st.cache(suppress_st_warning=True)
-def lime_explainer():
-    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
-    mode='classification',training_labels=y,feature_names=X_train.columns)
-    return explainer
+# @st.cache(suppress_st_warning=True)
+# def lime_explainer():
+#     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
+#     mode='classification',training_labels=y,feature_names=X_train.columns)
+#     return explainer
 
 
 def main():
@@ -268,11 +268,11 @@ def main():
     
 
         # # asking for explanation for LIME model
-    fig = plt.figure(figsize=(20, 20))
-    exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
-    plt.title('Importance locale des features')
-    exp.as_pyplot_figure()
-    col1.pyplot()
+#     fig = plt.figure(figsize=(20, 20))
+#     exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
+#     plt.title('Importance locale des features')
+#     exp.as_pyplot_figure()
+#     col1.pyplot()
 #     plf.clf()
 #     st.markdown(exp.as_html(), unsafe_allow_html=True)
  
