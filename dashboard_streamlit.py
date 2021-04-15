@@ -25,7 +25,7 @@ import lime.lime_tabular
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # import altair as alt
-# import re
+import re
 #matplotlib.use('Agg')
 
 # import io
