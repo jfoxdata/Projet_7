@@ -254,25 +254,25 @@ def main():
     col2.plotly_chart(fig, use_container_width=True) 
 
 
-#     col1, col2 = st.beta_columns(2)
+    col1, col2 = st.beta_columns(2)
 
 
-#     fig = plt.figure(figsize=(20, 15))
-#     feat_importances.nlargest(10).plot(kind='barh')
-#     plt.title('Importance global des Features', fontsize=25)
-#     col2.pyplot(fig)
+    fig = plt.figure(figsize=(20, 15))
+    feat_importances.nlargest(10).plot(kind='barh')
+    plt.title('Importance global des Features', fontsize=25)
+    col2.pyplot(fig)
 
 
 
     
     
 
-#         # # asking for explanation for LIME model
-#     fig = plt.figure(figsize=(20, 20))
-#     exp = lime_explainer().explain_instance(data.iloc[client].astype(int).values, prob, num_features=10)
-#     plt.title('Importance locale des features')
-#     exp.as_pyplot_figure()
-#     col1.pyplot()
+        # # asking for explanation for LIME model
+    fig = plt.figure(figsize=(20, 20))
+    exp = lime_explainer().explain_instance(data.iloc[client].astype(int).values, prob, num_features=10)
+    plt.title('Importance locale des features')
+    exp.as_pyplot_figure()
+    col1.pyplot()
 
  
 
