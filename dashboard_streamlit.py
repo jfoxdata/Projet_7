@@ -52,7 +52,7 @@ image = Image.open('pret-a-depenser.PNG')
 def train():
     train_test = application_train_test(num_rows = None, nan_as_category = False)
     train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
-    train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR'])
+    train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR']).sample(frac=0.05)
     X = train.drop(columns=['TARGET'])
     y = train['TARGET']
     X_fill = X.fillna(X.mean())
