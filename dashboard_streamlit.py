@@ -149,15 +149,15 @@ feat_importances = pd.Series(model.feature_importances_, index=X_train.columns)
 
 @st.cache(suppress_st_warning=True)
 def shap_explainer():
-     explainer = shap.TreeExplainer(model)
-#     shap_values = explainer.shap_values(X_train)
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X_train)
+    p = shap.force_plot(explainer.expected_value[1], shap_values[1], X_train)
+    return p, shap_values
 #     #fig_summary_shap = shap.summary_plot(shap_values, X_train)
 #     return explainer, shap_values #, fig_summary_shap
 # def explain_model_prediction(data):
     # Calculate Shap values
-    shap_values = explainer.shap_values(X_train)
-    p = shap.force_plot(explainer.expected_value[1], shap_values[1], X_train)
-    return p, shap_values
+
 
 
 @st.cache(suppress_st_warning=True)
