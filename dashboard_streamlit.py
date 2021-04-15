@@ -60,8 +60,8 @@ def train():
     X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
     return X_train, y
 
-# X_train = train()[0]
-# y = train()[1]
+X_train = train()[0]
+y = train()[1]
 
 # train_test = application_train_test(num_rows = None, nan_as_category = False)
 # #bureau_balance = bureau_and_balance(num_rows = None, nan_as_category = True)
