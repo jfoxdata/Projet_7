@@ -269,7 +269,7 @@ def main():
 
         # # asking for explanation for LIME model
     fig = plt.figure(figsize=(20, 20))
-    exp = lime_explainer().explain_instance(data.iloc[client].astype(int).values, prob, num_features=10)
+    exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
     plt.title('Importance locale des features')
     exp.as_pyplot_figure()
     col1.pyplot()
