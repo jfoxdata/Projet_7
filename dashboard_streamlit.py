@@ -50,7 +50,7 @@ image = Image.open('pret-a-depenser.PNG')
 
 
 
-# train_test = application_train_test(num_rows = None, nan_as_category = False)
+train_test = application_train_test(num_rows = None, nan_as_category = False)
 # #bureau_balance = bureau_and_balance(num_rows = None, nan_as_category = True)
 # #prev_appli = previous_applications(num_rows = None, nan_as_category = True)
 # #poscash = pos_cash(num_rows = None, nan_as_category = True)
@@ -58,20 +58,20 @@ image = Image.open('pret-a-depenser.PNG')
 # #cre_card_bal = credit_card_balance(num_rows = None, nan_as_category = True)
 # # home_cred = pd.read_csv('HomeCredit_columns_description.csv', encoding ='cp1258')
 
-# train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
+train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
 
-# train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR'])
+train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR'])
 # test = train_test[train_test['TARGET'].isna()].drop(columns=['index', 'SK_ID_CURR', 'TARGET'])
 
 
-# X = train.drop(columns=['TARGET']) 
+X = train.drop(columns=['TARGET']) 
 # y = train['TARGET']
 
-# X_fill = X.fillna(X.mean())
+X_fill = X.fillna(X.mean())
 # X_t = test.fillna(X.mean())
 
-# scaler = StandardScaler()
-# X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
+scaler = StandardScaler()
+X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
 # X_test = pd.DataFrame(scaler.transform(X_t), columns= test.columns)
 # X2 = pd.concat([X_train, X_test])
 
