@@ -147,20 +147,20 @@ feat_importances = pd.Series(model.feature_importances_, index=X_train.columns)
 
 # ########## ------------------- ############ 
 
-# @st.cache(suppress_st_warning=True)
-# def shap_explainer():
-#     explainer = shap.TreeExplainer(model)
-#     shap_values = explainer.shap_values(X_train)
-#     #fig_summary_shap = shap.summary_plot(shap_values, X_train)
-#     return explainer, shap_values #, fig_summary_shap
+@st.cache(suppress_st_warning=True)
+def shap_explainer():
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X_train)
+    #fig_summary_shap = shap.summary_plot(shap_values, X_train)
+    return explainer, shap_values #, fig_summary_shap
 
 
 
-# @st.cache(suppress_st_warning=True)
-# def lime_explainer():
-#     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
-#     mode='classification',training_labels=y,feature_names=X_train.columns)
-#     return explainer
+@st.cache(suppress_st_warning=True)
+def lime_explainer():
+    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
+    mode='classification',training_labels=y,feature_names=X_train.columns)
+    return explainer
 
 
 def main():
