@@ -289,7 +289,7 @@ def main():
 #     # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
     st.write("Explication des points forts et points faibles du client", fontsize=25)
 #     st_shap(shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], X_train.iloc[client,:]))
-    p, shap_values = shap_explainer(X_train)
+    p, shap_values = shap_explainer()
     st.subheader('Model Prediction Interpretation Plot')
     st_shap(p)
 
