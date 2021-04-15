@@ -143,16 +143,16 @@ def prob(data):
 # ######### ------------------------ ###########
 
 
-# feat_importances = pd.Series(model.feature_importances_, index=X.columns)
+feat_importances = pd.Series(model.feature_importances_, index=X.columns)
 
 # ########## ------------------- ############ 
 
-# @st.cache(suppress_st_warning=True)
-# def shap_explainer():
-#     explainer = shap.TreeExplainer(model)
-#     shap_values = explainer.shap_values(X2)
-#     #fig_summary_shap = shap.summary_plot(shap_values, X2)
-#     return explainer, shap_values #, fig_summary_shap
+@st.cache(suppress_st_warning=True)
+def shap_explainer():
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X2)
+    #fig_summary_shap = shap.summary_plot(shap_values, X2)
+    return explainer, shap_values #, fig_summary_shap
 
 
 
