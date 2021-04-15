@@ -122,18 +122,18 @@ y_pred = predict()[0]
 model = predict()[1]
 
 # ######### ------------------------ ###########
-# @st.cache(suppress_st_warning=True)
-# def seuil(k, y_predprob):
-#     classification = []
-#     for i in range(len(y_predprob)):
-#         if y_predprob[:,1][i]>k:
-#             classification.append(1)
-#         else:
-#             classification.append(0)
-#     return classification
+@st.cache(suppress_st_warning=True)
+def seuil(k, y_predprob):
+    classification = []
+    for i in range(len(y_predprob)):
+        if y_predprob[:,1][i]>k:
+            classification.append(1)
+        else:
+            classification.append(0)
+    return classification
 
-# k = 0.3
-# score = seuil(k, y_pred)
+k = 0.3
+score = seuil(k, y_pred)
 
 # ######### ------------------------ ###########
 # @st.cache(suppress_st_warning=True)
