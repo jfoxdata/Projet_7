@@ -307,5 +307,5 @@ def main():
 #     plt.scatter(data[var1].iloc[client], data[var2].iloc[client], marker="8", s=200, c='red')
 #     st.pyplot(fig)
 
-# if __name__ =='__main__':
-#     main()
+if __name__ =='__main__':
+    main()
