@@ -156,11 +156,11 @@ def shap_explainer():
 
 
 
-@st.cache(suppress_st_warning=True)
-def lime_explainer():
-    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
-    mode='classification',training_labels=y,feature_names=X_train.columns)
-    return explainer
+# @st.cache(suppress_st_warning=True)
+# def lime_explainer():
+#     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
+#     mode='classification',training_labels=y,feature_names=X_train.columns)
+#     return explainer
 
 
 def main():
@@ -268,11 +268,11 @@ def main():
     
 
         # # asking for explanation for LIME model
-    fig = plt.figure(figsize=(20, 20))
-    exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
-    plt.title('Importance locale des features')
-    exp.as_pyplot_figure()
-    col1.pyplot()
+#     fig = plt.figure(figsize=(20, 20))
+#     exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
+#     plt.title('Importance locale des features')
+#     exp.as_pyplot_figure()
+#     col1.pyplot()
 #     plf.clf()
 #     st.markdown(exp.as_html(), unsafe_allow_html=True)
  
@@ -281,8 +281,8 @@ def main():
 
 #     # explain the model's predictions using SHAP
 #     # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
-#     st.write("Explication des points forts et points faibles du client", fontsize=25)
-#     st_shap(shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], data.iloc[client,:]))
+    st.write("Explication des points forts et points faibles du client", fontsize=25)
+    st_shap(shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], X_train.iloc[client,:]))
 
 #     # st.write("Représentation générale", fontsize=25)
     
