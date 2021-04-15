@@ -176,15 +176,15 @@ def main():
 
 
 
-#     col1, col2 = st.beta_columns(2)
+    col1, col2 = st.beta_columns(2)
 
 
-#     col1.text('Score :')
-#     col1.write(y_pred[client][0])
-#     if score[client] == 0:
-#         col1.success('Prêt accepté !')
-#     else : 
-#         col1.warning('Prêt refusé !')
+    col1.text('Score :')
+    col1.write(y_pred[client][0])
+    if score[client] == 0:
+        col1.success('Prêt accepté !')
+    else : 
+        col1.warning('Prêt refusé !')
 
 
 #     # fig = go.Figure(go.Indicator(
@@ -210,57 +210,57 @@ def main():
 #     # fig.update_layout(height = 250)
 #     # col2.plotly_chart(fig)
 
-#     col2.write('Score du client')
-#     col2.progress(y_pred[client][0])
+    col2.write('Score du client')
+    col2.progress(y_pred[client][0])
 
-#     col2.write('Seuil attendu')
+    col2.write('Seuil attendu')
 
-#     col2.progress(0.4)
-
-
-#     fig = go.Figure(go.Indicator(
-#     mode = "gauge+number+delta",
-#     value = y_pred[client][0],
-#     domain = {'x': [0, 1], 'y': [0, 1]},
-#     title = {'text': "Score du client", 'font': {'size': 24}},
-#     delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
-#     gauge = {
-#         'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
-#         'bar': {'color': "darkblue"},
-#         'bgcolor': "white",
-#         'borderwidth': 2,
-#         'bordercolor': "gray",
-#         'steps': [
-#             {'range': [0, 0.2], 'color': 'red'},
-#             {'range': [0.2, 0.4], 'color': 'orange'},
-#             {'range': [0.4, 0.7], 'color': 'lightgreen'},
-#             {'range': [0.7, 1], 'color': 'green'}],
-#         }))
-
-#     fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-#     col1.plotly_chart(fig)
+    col2.progress(0.4)
 
 
+    fig = go.Figure(go.Indicator(
+    mode = "gauge+number+delta",
+    value = y_pred[client][0],
+    domain = {'x': [0, 1], 'y': [0, 1]},
+    title = {'text': "Score du client", 'font': {'size': 24}},
+    delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
+    gauge = {
+        'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
+        'bar': {'color': "darkblue"},
+        'bgcolor': "white",
+        'borderwidth': 2,
+        'bordercolor': "gray",
+        'steps': [
+            {'range': [0, 0.2], 'color': 'red'},
+            {'range': [0.2, 0.4], 'color': 'orange'},
+            {'range': [0.4, 0.7], 'color': 'lightgreen'},
+            {'range': [0.7, 1], 'color': 'green'}],
+        }))
 
-#     labels = ['Crédit Refusé', 'Crédit accepté']
-#     S = sum(score)
-#     values = [len(y_pred) -S , S ]
-
-#     fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
-#                              insidetextorientation='radial')])
-
-#     plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
-
-#     col2.plotly_chart(fig, use_container_width=True) 
+    fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
+    col1.plotly_chart(fig)
 
 
-#     col1, col2 = st.beta_columns(2)
+
+    labels = ['Crédit Refusé', 'Crédit accepté']
+    S = sum(score)
+    values = [len(y_pred) -S , S ]
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
+                             insidetextorientation='radial')])
+
+    plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
+
+    col2.plotly_chart(fig, use_container_width=True) 
 
 
-#     fig = plt.figure(figsize=(20, 15))
-#     feat_importances.nlargest(10).plot(kind='barh')
-#     plt.title('Importance global des Features', fontsize=25)
-#     col2.pyplot(fig)
+    col1, col2 = st.beta_columns(2)
+
+
+    fig = plt.figure(figsize=(20, 15))
+    feat_importances.nlargest(10).plot(kind='barh')
+    plt.title('Importance global des Features', fontsize=25)
+    col2.pyplot(fig)
 
 
 
@@ -281,8 +281,8 @@ def main():
 
 #     # explain the model's predictions using SHAP
 #     # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
-    st.write("Explication des points forts et points faibles du client", fontsize=25)
-    st_shap(shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], X_train.iloc[client,:]))
+#     st.write("Explication des points forts et points faibles du client", fontsize=25)
+#     st_shap(shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], X_train.iloc[client,:]))
 
 #     # st.write("Représentation générale", fontsize=25)
     
@@ -290,28 +290,28 @@ def main():
 #     # for name in X_train.columns:
 #     # shap.dependence_plot(name, shap_values[1], X, display_features=X_display)
 
-#     col1, col2 = st.beta_columns(2)
-#     feat_imp_sort = feat_importances.sort_values(ascending=False)
-#     feat_imp_sort2 = feat_imp_sort.copy()
-#     var1 = col1.selectbox('Sélectionner la première variable', feat_imp_sort.index)
-#     var2 = col2.selectbox('Sélectionner la deuxième variable', feat_imp_sort.index.drop(var1))
+    col1, col2 = st.beta_columns(2)
+    feat_imp_sort = feat_importances.sort_values(ascending=False)
+    feat_imp_sort2 = feat_imp_sort.copy()
+    var1 = col1.selectbox('Sélectionner la première variable', feat_imp_sort.index)
+    var2 = col2.selectbox('Sélectionner la deuxième variable', feat_imp_sort.index.drop(var1))
 
     
-#     # fig = px.scatter(data, x=var1, y=var2,
-#     #              color=y_pred[:,1], color_continuous_scale='Inferno')
-#     # df = data.iloc[client]
-#     # fig.add_trace(px.scatter(df, x=var1, y=var2,
-#     #              color='red'))
+    # fig = px.scatter(data, x=var1, y=var2,
+    #              color=y_pred[:,1], color_continuous_scale='Inferno')
+    # df = data.iloc[client]
+    # fig.add_trace(px.scatter(df, x=var1, y=var2,
+    #              color='red'))
      
-#     # st.plotly_chart(fig)
+    # st.plotly_chart(fig)
 
 
 
 
-#     fig = plt.figure(figsize=(15,10))
-#     plt.scatter(data[var1], data[var2], c=y_pred[:,1])
-#     plt.scatter(data[var1].iloc[client], data[var2].iloc[client], marker="8", s=200, c='red')
-#     st.pyplot(fig)
+    fig = plt.figure(figsize=(15,10))
+    plt.scatter(data[var1], data[var2], c=y_pred[:,1])
+    plt.scatter(data[var1].iloc[client], data[var2].iloc[client], marker="8", s=200, c='red')
+    st.pyplot(fig)
 
 if __name__ =='__main__':
     main()
