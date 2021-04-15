@@ -218,40 +218,40 @@ def main():
     col2.progress(0.4)
 
 
-#     fig = go.Figure(go.Indicator(
-#     mode = "gauge+number+delta",
-#     value = y_pred[client][0],
-#     domain = {'x': [0, 1], 'y': [0, 1]},
-#     title = {'text': "Score du client", 'font': {'size': 24}},
-#     delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
-#     gauge = {
-#         'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
-#         'bar': {'color': "darkblue"},
-#         'bgcolor': "white",
-#         'borderwidth': 2,
-#         'bordercolor': "gray",
-#         'steps': [
-#             {'range': [0, 0.2], 'color': 'red'},
-#             {'range': [0.2, 0.4], 'color': 'orange'},
-#             {'range': [0.4, 0.7], 'color': 'lightgreen'},
-#             {'range': [0.7, 1], 'color': 'green'}],
-#         }))
+    fig = go.Figure(go.Indicator(
+    mode = "gauge+number+delta",
+    value = y_pred[client][0],
+    domain = {'x': [0, 1], 'y': [0, 1]},
+    title = {'text': "Score du client", 'font': {'size': 24}},
+    delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
+    gauge = {
+        'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
+        'bar': {'color': "darkblue"},
+        'bgcolor': "white",
+        'borderwidth': 2,
+        'bordercolor': "gray",
+        'steps': [
+            {'range': [0, 0.2], 'color': 'red'},
+            {'range': [0.2, 0.4], 'color': 'orange'},
+            {'range': [0.4, 0.7], 'color': 'lightgreen'},
+            {'range': [0.7, 1], 'color': 'green'}],
+        }))
 
-#     fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-#     col1.plotly_chart(fig)
+    fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
+    col1.plotly_chart(fig)
 
 
 
-#     labels = ['Crédit Refusé', 'Crédit accepté']
-#     S = sum(score)
-#     values = [len(y_pred) -S , S ]
+    labels = ['Crédit Refusé', 'Crédit accepté']
+    S = sum(score)
+    values = [len(y_pred) -S , S ]
 
-#     fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
-#                              insidetextorientation='radial')])
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
+                             insidetextorientation='radial')])
 
-#     plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
+    plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
 
-#     col2.plotly_chart(fig, use_container_width=True) 
+    col2.plotly_chart(fig, use_container_width=True) 
 
 
 #     col1, col2 = st.beta_columns(2)
