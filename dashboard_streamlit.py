@@ -176,15 +176,15 @@ def main():
 
 
 
-    col1, col2 = st.beta_columns(2)
+#     col1, col2 = st.beta_columns(2)
 
 
-    col1.text('Score :')
-    col1.write(y_pred[client][0])
-    if score[client] == 0:
-        col1.success('Prêt accepté !')
-    else : 
-        col1.warning('Prêt refusé !')
+#     col1.text('Score :')
+#     col1.write(y_pred[client][0])
+#     if score[client] == 0:
+#         col1.success('Prêt accepté !')
+#     else : 
+#         col1.warning('Prêt refusé !')
 
 
 #     # fig = go.Figure(go.Indicator(
@@ -210,57 +210,57 @@ def main():
 #     # fig.update_layout(height = 250)
 #     # col2.plotly_chart(fig)
 
-    col2.write('Score du client')
-    col2.progress(y_pred[client][0])
+#     col2.write('Score du client')
+#     col2.progress(y_pred[client][0])
 
-    col2.write('Seuil attendu')
+#     col2.write('Seuil attendu')
 
-    col2.progress(0.4)
-
-
-    fig = go.Figure(go.Indicator(
-    mode = "gauge+number+delta",
-    value = y_pred[client][0],
-    domain = {'x': [0, 1], 'y': [0, 1]},
-    title = {'text': "Score du client", 'font': {'size': 24}},
-    delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
-    gauge = {
-        'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
-        'bar': {'color': "darkblue"},
-        'bgcolor': "white",
-        'borderwidth': 2,
-        'bordercolor': "gray",
-        'steps': [
-            {'range': [0, 0.2], 'color': 'red'},
-            {'range': [0.2, 0.4], 'color': 'orange'},
-            {'range': [0.4, 0.7], 'color': 'lightgreen'},
-            {'range': [0.7, 1], 'color': 'green'}],
-        }))
-
-    fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-    col1.plotly_chart(fig)
+#     col2.progress(0.4)
 
 
+#     fig = go.Figure(go.Indicator(
+#     mode = "gauge+number+delta",
+#     value = y_pred[client][0],
+#     domain = {'x': [0, 1], 'y': [0, 1]},
+#     title = {'text': "Score du client", 'font': {'size': 24}},
+#     delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
+#     gauge = {
+#         'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
+#         'bar': {'color': "darkblue"},
+#         'bgcolor': "white",
+#         'borderwidth': 2,
+#         'bordercolor': "gray",
+#         'steps': [
+#             {'range': [0, 0.2], 'color': 'red'},
+#             {'range': [0.2, 0.4], 'color': 'orange'},
+#             {'range': [0.4, 0.7], 'color': 'lightgreen'},
+#             {'range': [0.7, 1], 'color': 'green'}],
+#         }))
 
-    labels = ['Crédit Refusé', 'Crédit accepté']
-    S = sum(score)
-    values = [len(y_pred) -S , S ]
-
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
-                             insidetextorientation='radial')])
-
-    plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
-
-    col2.plotly_chart(fig, use_container_width=True) 
+#     fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
+#     col1.plotly_chart(fig)
 
 
-    col1, col2 = st.beta_columns(2)
+
+#     labels = ['Crédit Refusé', 'Crédit accepté']
+#     S = sum(score)
+#     values = [len(y_pred) -S , S ]
+
+#     fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
+#                              insidetextorientation='radial')])
+
+#     plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
+
+#     col2.plotly_chart(fig, use_container_width=True) 
 
 
-    fig = plt.figure(figsize=(20, 15))
-    feat_importances.nlargest(10).plot(kind='barh')
-    plt.title('Importance global des Features', fontsize=25)
-    col2.pyplot(fig)
+#     col1, col2 = st.beta_columns(2)
+
+
+#     fig = plt.figure(figsize=(20, 15))
+#     feat_importances.nlargest(10).plot(kind='barh')
+#     plt.title('Importance global des Features', fontsize=25)
+#     col2.pyplot(fig)
 
 
 
