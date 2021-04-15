@@ -271,14 +271,14 @@ def main():
     
     
 
-        # # asking for explanation for LIME model
-#     fig = plt.figure(figsize=(20, 20))
-#     exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
-#     plt.title('Importance locale des features')
+        # asking for explanation for LIME model
+    fig = plt.figure(figsize=(20, 20))
+    exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
+    plt.title('Importance locale des features')
 #     html = exp.as_html()
 #     components.html(html, height=500)
-#     exp.as_pyplot_figure()
-#     col1.pyplot()
+    exp.as_pyplot_figure()
+    col1.pyplot()
 #     plf.clf()
 #     st.markdown(exp.as_html(), unsafe_allow_html=True)
  
