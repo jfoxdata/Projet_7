@@ -156,11 +156,11 @@ def shap_explainer():
 
 
 
-# @st.cache(suppress_st_warning=True)
-# def lime_explainer():
-#     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
-#     mode='classification',training_labels=y,feature_names=X_train.columns)
-#     return explainer
+@st.cache(suppress_st_warning=True)
+def lime_explainer():
+    explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
+    mode='classification',training_labels=y,feature_names=X_train.columns)
+    return explainer
 
 
 def main():
