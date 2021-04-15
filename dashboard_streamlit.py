@@ -210,12 +210,12 @@ def main():
 #     # fig.update_layout(height = 250)
 #     # col2.plotly_chart(fig)
 
-#     col2.write('Score du client')
-#     col2.progress(y_pred[client][0])
+    col2.write('Score du client')
+    col2.progress(y_pred[client][0])
 
-#     col2.write('Seuil attendu')
+    col2.write('Seuil attendu')
 
-#     col2.progress(0.4)
+    col2.progress(0.4)
 
 
 #     fig = go.Figure(go.Indicator(
