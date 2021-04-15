@@ -58,10 +58,11 @@ def train():
     X_fill = X.fillna(X.mean())
     scaler = StandardScaler()
     X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
-    return X_train, y
+    return X_train, y, X
 
 X_train = train()[0]
 y = train()[1]
+X= train()[2]
 
 # train_test = application_train_test(num_rows = None, nan_as_category = False)
 # #bureau_balance = bureau_and_balance(num_rows = None, nan_as_category = True)
