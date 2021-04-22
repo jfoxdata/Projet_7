@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import chart_studio.plotly as py
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 import plotly.express as px
@@ -21,6 +22,7 @@ import plotly.graph_objects as go
 
 import lime
 import lime.lime_tabular
+import matplotlib.patches as mpatches
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -28,23 +30,15 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 import re
 #matplotlib.use('Agg')
 
-# import io
-# import requests
-# url2 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_test.csv'
-# url1 = 'https://www.kaggle.com/c/home-credit-default-risk/data?select=application_train.csv'
-# s1=requests.get(url1)
-# s2=requests.get(url2)
-# df=pd.read_csv(io.StringIO(s1.text))
-# test_df=pd.read_csv(io.StringIO(s2.text))
-# # df=pd.read_csv(c2)
-# # test_df=pd.read_csv(c1)
+
 
 st.set_page_config(layout="wide")
 
 
-# model = pickle.load(open('model.pkl', 'rb'))
+model = pickle.load(open('model.pkl', 'rb'))
+scaler = pickle.load(open('scaler.pkl', 'rb'))
 
-st.title('Prêt à dépenser')
+# st.title('Prêt à dépenser')
 
 image = Image.open('pret-a-depenser.PNG')
 
@@ -52,74 +46,35 @@ image = Image.open('pret-a-depenser.PNG')
 def train():
     train_test = application_train_test(num_rows = None, nan_as_category = False)
     train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
-    train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR']).sample(frac=0.05)
+    train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR'])
     X = train.drop(columns=['TARGET'])
     y = train['TARGET']
     X_fill = X.fillna(X.mean())
-    scaler = StandardScaler()
-    X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
+    X_train = pd.DataFrame(scaler.transform(X_fill), columns= X.columns).sample(frac=0.05, random_state=1)
     return X_train, y
 
 X_train = train()[0]
 y = train()[1]
 
-# train_test = application_train_test(num_rows = None, nan_as_category = False)
-# #bureau_balance = bureau_and_balance(num_rows = None, nan_as_category = True)
-# #prev_appli = previous_applications(num_rows = None, nan_as_category = True)
-# #poscash = pos_cash(num_rows = None, nan_as_category = True)
-# #install_pay = installments_payments(num_rows = None, nan_as_category = True)
-# #cre_card_bal = credit_card_balance(num_rows = None, nan_as_category = True)
-# # home_cred = pd.read_csv('HomeCredit_columns_description.csv', encoding ='cp1258')
 
-# train_test = train_test.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
-
-# train = train_test[train_test['TARGET'].notna()].drop(columns=['index', 'SK_ID_CURR'])
-# test = train_test[train_test['TARGET'].isna()].drop(columns=['index', 'SK_ID_CURR', 'TARGET'])
-
-
-# X = train.drop(columns=['TARGET']) 
-# y = train['TARGET']
-
-# X_fill = X.fillna(X.mean())
-# X_t = test.fillna(X.mean())
-
-# scaler = StandardScaler()
-# X_train = pd.DataFrame(scaler.fit_transform(X_fill), columns= X.columns)
-# X_test = pd.DataFrame(scaler.transform(X_t), columns= test.columns)
-# X2 = pd.concat([X_train, X_test])
-
-# data = train_test.drop(columns=['index', 'SK_ID_CURR', 'TARGET']).fillna(X.mean())
-
-# y_pred = model.predict_proba(data)
     
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
-def st_shap(plot, height=None):
+def st_shap(plot, height=None, width=None):
     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
-    components.html(shap_html, height=height)
+    components.html(shap_html, height=height, width=width)
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
 def predict():
-    clf4 = LGBMClassifier(max_depth=24, n_estimators=836, num_leaves=23,
-                     learning_rate=0.02,
-                     min_child_weight= 95.7889530150502,
-                     min_split_gain= 0.5331652849730171,
-                     reg_alpha= 0.6918771139504734,
-                     reg_lambda= 0.31551563100606295,
-                     colsample_bytree= 0.20445224973151743,
-                     subsample= 0.8781174363909454, 
-                     is_unbalance=True, random_state=1, force_row_wise=True)
+    y_pred = model.predict_proba(X_train)
+    return y_pred #, model
 
-    model = clf4.fit(X_train, y)
-    y_pred = clf4.predict_proba(X_train)
-#     y_pred2 = model.predict_proba(X_test)
-#     y_pred = np.concatenate((y_pred1, y_pred2))
-    return y_pred , model
+y_pred = predict()
 
-y_pred = predict()[0]
-model = predict()[1]
+
+
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
@@ -132,8 +87,19 @@ def seuil(k, y_predprob):
             classification.append(0)
     return classification
 
-k = 0.3
+k = 0.5
 score = seuil(k, y_pred)
+
+############ -------------- ########
+
+def fonc():
+    y = []
+    for i in range(len(y_pred)):
+            y.append(2* y_pred[i][0]-1)
+    return y
+
+y_scaled = fonc()
+
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
@@ -160,7 +126,8 @@ shap_values = explainer.shap_values(X_train)
 
 
 
-@st.cache(suppress_st_warning=True)
+# @st.cache(suppress_st_warning=True)
+@st.cache(allow_output_mutation=True)
 def lime_explainer():
     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.astype(int).values,  
     mode='classification',training_labels=y,feature_names=X_train.columns)
@@ -168,15 +135,14 @@ def lime_explainer():
 
 
 def main():
-    
+    st.markdown("<h1 style='text-align: center; color: red;'>Prêt à dépenser</h1>", unsafe_allow_html=True)
     
 
     st.sidebar.image(image, width=300)
 
 
 
-    client=st.sidebar.number_input("Saisissez un numéro de clients", min_value=0, max_value=356251, value=0)
-
+    client=st.sidebar.number_input("Saisissez un numéro de clients", min_value=0, max_value=X_train.shape[0], value=0)
 
 
 
@@ -191,59 +157,43 @@ def main():
         col1.warning('Prêt refusé !')
 
 
-#     # fig = go.Figure(go.Indicator(
-#     # mode = "number+gauge+delta", value = y_pred[client][0],
-#     # domain = {'x': [0.1, 1], 'y': [0, 1]},
-#     # title = {'text' :"Score du client "},
-#     # delta = {'reference': 1},
-#     # gauge = {
-#     #     'shape': "bullet",
-#     #     'axis': {'range': [0, 1]},
-#     #     'threshold': {
-#     #         'line': {'color': "red", 'width': 2},
-#     #         'thickness': 0.75,
-#     #         'value': 0.3},
-#     #     'steps': [
-#     #         {'range': [0, 0.2], 'color': "red"},
-#     #         {'range': [0.2, 0.4], 'color': "orange"},
-#     #         {'range': [0.4, 0.7], 'color': "lightgreen"},
-#     #         {'range': [0.7, 1], 'color': "green"}
-#     #         ],
-#     #     'bar' : {'color': 'royalblue'}
-#     #         }))
-#     # fig.update_layout(height = 250)
-#     # col2.plotly_chart(fig)
 
     col2.write('Score du client')
     col2.progress(y_pred[client][0])
 
     col2.write('Seuil attendu')
 
-    col2.progress(0.4)
+    col2.progress(0.5)
+
 
 
     fig = go.Figure(go.Indicator(
-    mode = "gauge+number+delta",
-    value = y_pred[client][0],
-    domain = {'x': [0, 1], 'y': [0, 1]},
-    title = {'text': "Score du client", 'font': {'size': 24}},
-    delta = {'reference': 1, 'increasing': {'color': "RebeccaPurple"}},
+    mode = "gauge+delta",
+    value = y_scaled[client], #y_pred[client][0],
+    domain = {'x': [0, 1], 'y': [0, 0.75]},
+    title = {'text': "Un autre indicateur de score du client <br><span style='font-size:0.8em;color:red'>Insatisfaisant</span> \
+    <span style='font-size:0.8em;color:orange'>Passable</span> \
+    <span style='font-size:0.8em;color:lightgreen'>Correct</span>\
+    <span style='font-size:0.8em;color:green'>Très bon</span><br> "
+    , 'font': {'size': 24, 'color':'black'}},
+    delta = {'reference': 0, 'increasing': {'color': "RebeccaPurple"}},
     gauge = {
-        'axis': {'range': [None, 1], 'tickwidth': 1, 'tickcolor': "royalblue"},
+        'axis': {'range': [-1, 1], 'tickwidth': 0.1, 'tickcolor': "royalblue"},
         'bar': {'color': "darkblue"},
         'bgcolor': "white",
         'borderwidth': 2,
         'bordercolor': "gray",
         'steps': [
-            {'range': [0, 0.2], 'color': 'red'},
-            {'range': [0.2, 0.4], 'color': 'orange'},
-            {'range': [0.4, 0.7], 'color': 'lightgreen'},
-            {'range': [0.7, 1], 'color': 'green'}],
+            {'range': [-1, -0.5], 'color': 'red', 'name':'Mauvais'},
+            {'range': [-0.5, 0], 'color': 'orange', 'name':'Passable'},
+            {'range': [0, 0.5], 'color': 'lightgreen', 'name':'Correct'},
+            {'range': [0.5, 1], 'color': 'green', 'name':'Bon'}],
         }))
+    fig.update_layout(paper_bgcolor = "white", font = {'color': "darkblue", 'family': "Arial"})
 
-    fig.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-    col1.plotly_chart(fig)
 
+
+    col1.plotly_chart(fig, use_container_width=True)
 
 
     labels = ['Crédit Refusé', 'Crédit accepté']
@@ -253,51 +203,56 @@ def main():
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
                              insidetextorientation='radial')])
 
-    plt.title('Répartition crédit accepté/ crédit refusé', fontsize=25)
+    col2.write('** Répartition crédits acceptés / crédits refusés sur notre échantillon** ', fontsize=40)
 
     col2.plotly_chart(fig, use_container_width=True) 
+# ---------------------------------------
 
 
     col1, col2 = st.beta_columns(2)
 
 
-    fig = plt.figure(figsize=(20, 15))
+    fig = plt.figure(figsize=(15, 10))
     feat_importances.nlargest(10).plot(kind='barh')
-    plt.title('Importance global des Features', fontsize=25)
+    col2.write('**Importance globale des caractéristiques**', fontsize=40)
     col2.pyplot(fig)
 
 
-
-    
-    
-
         # asking for explanation for LIME model
+    col1.write('**Descriptions des principales caractéristiques du client pour la classe 1 (crédit refusé)**', fontsize=40) 
     fig = plt.figure(figsize=(20, 20))
     exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
     plt.title('Importance locale des features')
 #     html = exp.as_html()
-#     components.html(html, height=500)
     exp.as_pyplot_figure()
     col1.pyplot()
-#     plf.clf()
-#     st.markdown(exp.as_html(), unsafe_allow_html=True)
+    
+    
+
+        # asking for explanation for LIME model
+    # fig = plt.figure(figsize=(20, 20))
+    # exp = lime_explainer().explain_instance(X_train.iloc[client].astype(int).values, prob, num_features=10)
+    # plt.title('Importance locale des features')
+#     html = exp.as_html()
+    # components.html(exp.as_html(), height=500)
+    # exp.as_pyplot_figure(title='Importance locale des features')
+    # col1.pyplot()
  
 
 
 
-#     # explain the model's predictions using SHAP
-#     # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
-    st.write("Explication des points forts et points faibles du client", fontsize=25)
-    st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][client,:], X_train.iloc[client,:]))
-#     p = shap.force_plot(shap_explainer()[0].expected_value[1], shap_explainer()[1][1][client,:], X_train.iloc[client,:])
-#     st_shap(p)
+    # explain the model's predictions using SHAP
+    # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
+    st.write("**Explication des points forts et points faibles du client**", fontsize=40)
+    st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][client,:], X_train.iloc[client,:]), height=200, width=1200)
+
+    # st.write("**Comparatif sur un échantillon de 100 clients**", fontsize=40)
+    # st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][:100,:], X_train.iloc[:100,:]), height=500)
 
 
-#     # st.write("Représentation générale", fontsize=25)
-    
-#     # st.pyplot(shap_explainer()[2])
-#     # for name in X_train.columns:
-#     # shap.dependence_plot(name, shap_values[1], X, display_features=X_display)
+#-----------------------------------------------
+
+    st.write("**Position du client par rapport à l'échantillon**", fontsize=40)
 
     col1, col2 = st.beta_columns(2)
     feat_imp_sort = feat_importances.sort_values(ascending=False)
@@ -305,22 +260,40 @@ def main():
     var1 = col1.selectbox('Sélectionner la première variable', feat_imp_sort.index)
     var2 = col2.selectbox('Sélectionner la deuxième variable', feat_imp_sort.index.drop(var1))
 
-    
-    # fig = px.scatter(data, x=var1, y=var2,
-    #              color=y_pred[:,1], color_continuous_scale='Inferno')
-    # df = data.iloc[client]
-    # fig.add_trace(px.scatter(df, x=var1, y=var2,
-    #              color='red'))
-     
-    # st.plotly_chart(fig)
-
-
-
 
     fig = plt.figure(figsize=(15,10))
-    plt.scatter(X_train[var1], X_train[var2], c=y_pred[:,1])
-    plt.scatter(X_train[var1].iloc[client], X_train[var2].iloc[client], marker="8", s=200, c='red')
-    st.pyplot(fig)
+    plt.scatter(X_train[var1], X_train[var2], c=y_pred[:,0])
+    plt.colorbar()
+    plt.title("Couleur par score", fontsize=20 )
+    # plt.annotate("Client observé", [X_train[var1].iloc[client], X_train[var2].iloc[client]], marker="8", s=200, c='red' )
+    plt.scatter(X_train[var1].iloc[client], X_train[var2].iloc[client], marker="8", s=200, c='red', label='Client')
+    plt.xlabel(var1, fontweight ='bold',
+               fontsize=16)
+    plt.ylabel(var2, fontweight ='bold',
+               fontsize=16)
+    col1.pyplot(fig)
+
+    colormap = np.array(['#0b559f', '#89bedc'])
+
+    fig = plt.figure(figsize=(15,11))
+    plt.title("Couleur par classification", fontsize=20)
+    plt.scatter(X_train[var1], X_train[var2], c=colormap[score])
+    pop_a = mpatches.Patch(color='#0b559f', label='crédit refusé')
+    pop_b = mpatches.Patch(color='#89bedc', label='crédit accepté')
+    plt.legend(handles=[pop_a,pop_b])
+    plt.scatter(X_train[var1].iloc[client], X_train[var2].iloc[client], marker="8", s=200, c='red', label='Client')
+    plt.xlabel(var1, fontweight ='bold',
+               fontsize=16)
+    plt.tick_params(axis='y', which='both', labelleft=False, labelright=True)
+    plt.ylabel(var2, fontweight ='bold',
+               fontsize=16)
+    col2.pyplot(fig)
+
+
+
+
+
+
 
 if __name__ =='__main__':
     main()
