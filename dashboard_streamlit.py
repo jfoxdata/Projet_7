@@ -261,7 +261,7 @@ def main():
 
 
     fig = plt.figure(figsize=(15,10))
-    plt.scatter(X_train[var1], X_train[var2], c=y_pred[:,0])
+    plt.scatter(X_train[var1], X_train[var2], c=y_pred[:,1])
     plt.colorbar()
     plt.title("Couleur par score", fontsize=20 )
     # plt.annotate("Client observé", [X_train[var1].iloc[client], X_train[var2].iloc[client]], marker="8", s=200, c='red' )
