@@ -60,9 +60,9 @@ y = train()[1]
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
-def st_shap(plot, height=None, width=None):
+def st_shap(plot, height=None):
     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
-    components.html(shap_html, height=height, width=width)
+    components.html(shap_html, height=height)
 
 # ######### ------------------------ ###########
 @st.cache(suppress_st_warning=True)
@@ -243,7 +243,7 @@ def main():
     # explain the model's predictions using SHAP
     # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models)
     st.write("**Explication des points forts et points faibles du client**", fontsize=40)
-    st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][client,:], X_train.iloc[client,:]), height=200, width=1200)
+    st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][client,:], X_train.iloc[client,:]), height=200)
 
     # st.write("**Comparatif sur un échantillon de 100 clients**", fontsize=40)
     # st_shap(shap.force_plot(explainer.expected_value[1], shap_values[1][:100,:], X_train.iloc[:100,:]), height=500)
